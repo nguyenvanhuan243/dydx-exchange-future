@@ -1,0 +1,1 @@
+import{g as t,l as o}from"./index-12ab17f1.js";const c=t.section.withConfig({componentId:"sc-1gss1xt-0"})(["",""],o.contentSectionDetached),e=t.section.withConfig({componentId:"sc-1gss1xt-1"})(["",""],o.contentSectionDetachedScrollable),s=t.section.withConfig({componentId:"sc-1gss1xt-2"})([""," gap:var(--border-width);"],o.contentSectionAttached);export{s as A,c as D,e as a};

@@ -1,0 +1,1 @@
+import{cL as o,fG as l,fH as r}from"./index-12ab17f1.js";const e=o({backgroundColor:"#222",colors:[l.cyan[4],l.teal[1],l.yellow[2],l.red[4],l.grape[3],l.grape[6],l.pink[3]],tickLength:4,svgLabelSmall:{fill:r[2]},svgLabelBig:{fill:r[0]},gridColor:r[4],gridColorDark:r[1]});export{e as d};

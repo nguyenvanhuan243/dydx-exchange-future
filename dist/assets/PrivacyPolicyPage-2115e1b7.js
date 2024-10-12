@@ -1,0 +1,1 @@
+import{j as i,g as r}from"./index-12ab17f1.js";import{a as t}from"./articleMixins-13e292d5.js";const o=()=>i.jsx(c,{children:i.jsx("header",{children:i.jsx("h1",{children:"Privacy Policy"})})}),c=r.article.withConfig({componentId:"sc-13t5dfe-0"})(["",""],t.article);export{o as default};
