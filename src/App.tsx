@@ -1,45 +1,38 @@
-import { lazy, Suspense, useEffect, useMemo } from 'react';
-
-import isPropValid from '@emotion/is-prop-valid';
-import { PrivyProvider } from '@privy-io/react-auth';
-import { WagmiProvider } from '@privy-io/wagmi';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { GrazProvider } from 'graz';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import styled, { css, StyleSheetManager, WebTarget } from 'styled-components';
-
+import { GuardedMobileRoute } from '@/components/GuardedMobileRoute';
+import { LoadingSpace } from '@/components/Loading/LoadingSpinner';
 import { config as grazConfig } from '@/constants/graz';
 import { AppRoute, DEFAULT_TRADE_ROUTE, MarketsRoute } from '@/constants/routes';
-
 import { AccountsProvider } from '@/hooks/useAccounts';
 import { AppThemeAndColorModeProvider } from '@/hooks/useAppThemeAndColorMode';
 import { DialogAreaProvider, useDialogArea } from '@/hooks/useDialogArea';
 import { DydxProvider } from '@/hooks/useDydxClient';
-import { LocalNotificationsProvider } from '@/hooks/useLocalNotifications';
 import { LocaleProvider } from '@/hooks/useLocaleSeparators';
+import { LocalNotificationsProvider } from '@/hooks/useLocalNotifications';
 import { NotificationsProvider } from '@/hooks/useNotifications';
 import { PotentialMarketsProvider } from '@/hooks/usePotentialMarkets';
 import { RestrictionProvider } from '@/hooks/useRestrictions';
 import { StatsigProvider } from '@/hooks/useStatsig';
 import { SubaccountProvider } from '@/hooks/useSubaccount';
-
-import '@/styles/constants.css';
-import '@/styles/fonts.css';
-import { GlobalStyle } from '@/styles/globalStyle';
-import { layoutMixins } from '@/styles/layoutMixins';
-import '@/styles/web3modal.css';
-
-import { GuardedMobileRoute } from '@/components/GuardedMobileRoute';
-import { LoadingSpace } from '@/components/Loading/LoadingSpinner';
 import { DialogManager } from '@/layout/DialogManager';
 import { FooterDesktop } from '@/layout/Footer/FooterDesktop';
 import { FooterMobile } from '@/layout/Footer/FooterMobile';
 import { HeaderDesktop } from '@/layout/Header/HeaderDesktop';
 import { NotificationsToastArea } from '@/layout/NotificationsToastArea';
-
 import { parseLocationHash } from '@/lib/urlUtils';
 import { config, privyConfig } from '@/lib/wagmi';
-
+import '@/styles/constants.css';
+import '@/styles/fonts.css';
+import { GlobalStyle } from '@/styles/globalStyle';
+import { layoutMixins } from '@/styles/layoutMixins';
+import '@/styles/web3modal.css';
+import isPropValid from '@emotion/is-prop-valid';
+import { PrivyProvider } from '@privy-io/react-auth';
+import { WagmiProvider } from '@privy-io/wagmi';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { GrazProvider } from 'graz';
+import { lazy, Suspense, useEffect, useMemo } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import styled, { css, StyleSheetManager, WebTarget } from 'styled-components';
 import { RestrictionWarning } from './components/RestrictionWarning';
 import { ComplianceStates } from './constants/compliance';
 import { DialogTypes } from './constants/dialogs';
@@ -68,6 +61,7 @@ const TermsOfUsePage = lazy(() => import('@/pages/TermsOfUsePage'));
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
 const RewardsPage = lazy(() => import('@/pages/token/RewardsPage'));
 const VaultPage = lazy(() => import('@/pages/vaults/VaultPage'));
+const Homepage = lazy(() => import('@/pages/Homepage/Homepage'));
 
 const Content = () => {
   useInitializePage();
@@ -117,7 +111,9 @@ const Content = () => {
                 <Route path=":market" element={<TradePage />} />
                 <Route path={AppRoute.Trade} element={<TradePage />} />
               </Route>
-
+              <Route exact path="/">
+                <Route path="/" element={<Homepage />} />
+              </Route>
               <Route path={AppRoute.Markets}>
                 {testFlags.pml ? (
                   <Route
@@ -125,8 +121,8 @@ const Content = () => {
                     element={<Navigate to={AppRoute.LaunchMarket} replace />}
                   />
                 ) : (
-                  <Route path={MarketsRoute.New} element={<NewMarket />} />
-                )}
+                    <Route path={MarketsRoute.New} element={<NewMarket />} />
+                  )}
                 <Route path={AppRoute.Markets} element={<MarketsPage />} />
               </Route>
 
