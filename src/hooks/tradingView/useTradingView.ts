@@ -1,21 +1,11 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
-
-import BigNumber from 'bignumber.js';
-import isEmpty from 'lodash/isEmpty';
-import {
-  LanguageCode,
-  ResolutionString,
-  TradingTerminalWidgetOptions,
-  widget as Widget,
-} from 'public/tradingview/';
-
 import { DEFAULT_RESOLUTION } from '@/constants/candles';
 import { TOGGLE_ACTIVE_CLASS_NAME } from '@/constants/charts';
 import { STRING_KEYS, SUPPORTED_LOCALE_BASE_TAGS } from '@/constants/localization';
 import { tooltipStrings } from '@/constants/tooltips';
 import type { TvWidget } from '@/constants/tvchart';
-
-import { store } from '@/state/_store';
+import { getDydxDatafeed } from '@/lib/tradingView/dydxfeed';
+import { getSavedResolution, getWidgetOptions, getWidgetOverrides } from '@/lib/tradingView/utils';
+import { orEmptyObj } from '@/lib/typeUtils';
 import { getSelectedNetwork } from '@/state/appSelectors';
 import { useAppDispatch, useAppSelector } from '@/state/appTypes';
 import { getAppColorMode, getAppTheme } from '@/state/configsSelectors';
@@ -23,11 +13,11 @@ import { getSelectedLocale } from '@/state/localizationSelectors';
 import { getCurrentMarketConfig, getCurrentMarketId } from '@/state/perpetualsSelectors';
 import { updateChartConfig } from '@/state/tradingView';
 import { getTvChartConfig } from '@/state/tradingViewSelectors';
-
-import { getDydxDatafeed } from '@/lib/tradingView/dydxfeed';
-import { getSavedResolution, getWidgetOptions, getWidgetOverrides } from '@/lib/tradingView/utils';
-import { orEmptyObj } from '@/lib/typeUtils';
-
+import { store } from '@/state/_store';
+import BigNumber from 'bignumber.js';
+import isEmpty from 'lodash/isEmpty';
+import { LanguageCode, ResolutionString, TradingTerminalWidgetOptions, widget as Widget } from 'public/tradingview/';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDydxClient } from '../useDydxClient';
 import { useLocaleSeparators } from '../useLocaleSeparators';
 import { useAllStatsigGateValues } from '../useStatsig';
@@ -167,7 +157,9 @@ export const useTradingView = ({
         auto_save_delay: 1,
       };
 
+      console.log("Widget #############################################################", options)
       const tvChartWidget = new Widget(options);
+      console.log("tvChartWidget ################################################", tvChartWidget)
       tvWidgetRef.current = tvChartWidget;
 
       tvChartWidget.onChartReady(() => {

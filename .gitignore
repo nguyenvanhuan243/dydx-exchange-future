@@ -14,7 +14,7 @@ dist-ssr
 *.key
 .env
 
-index.html
+# index.html
 entry_points/
 
 # Editor directories and files
